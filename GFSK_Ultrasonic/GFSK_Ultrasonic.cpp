@@ -16,11 +16,13 @@
 #include "Arduino.h"
 #include "GFSK_Ultrasonic.h"
 
-GFSK_Ultrasonic::GFSK_Ultrasonic(int trigPin, int echoPin)
+GFSK_Ultrasonic::GFSK_Ultrasonic(int trigPin, int echoPin, int interval)
 {
   _trigPin = trigPin;
   _echoPin = echoPin;
+  _interval = interval;
   _lastDistances = 1;
+  _lastTime = millis();
 }
 
 void GFSK_Ultrasonic::init()
@@ -31,27 +33,32 @@ void GFSK_Ultrasonic::init()
 
 int GFSK_Ultrasonic::getDistanceInCM()
 {
-  digitalWrite(_trigPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(_trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(_trigPin, LOW);
+  if ((millis() - _interval) > _lastTime) {
+    _lastTime = millis();
+    digitalWrite(_trigPin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(_trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(_trigPin, LOW);
 
-  int microseconds = pulseIn(_echoPin, HIGH);
+    int microseconds = pulseIn(_echoPin, HIGH);
 
-  // convert the time into a distance
-  // The speed of sound is 340 m/s or 29 microseconds per centimeter.
-  // The ping travels out and back, so to find the distance of the
-  // object we take half of the distance travelled.
-  int distance = (microseconds / 29 / 2);
-  
-  if (distance < 0)
-  {
-    return _lastDistances;
-  } else if (distance > 300) {
-    return 300;
+    // convert the time into a distance
+    // The speed of sound is 340 m/s or 29 microseconds per centimeter.
+    // The ping travels out and back, so to find the distance of the
+    // object we take half of the distance travelled.
+    int distance = (microseconds / 29 / 2);
+    
+    if (distance < 0)
+    {
+      return _lastDistances;
+    } else if (distance > 300) {
+      return 300;
+    } else {
+      _lastDistances = distance;
+      return distance;
+    }
   } else {
-    _lastDistances = distance;
-    return distance;
+    return _lastDistances;
   }
 }

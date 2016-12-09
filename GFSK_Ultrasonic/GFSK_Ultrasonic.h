@@ -6,13 +6,15 @@
 class GFSK_Ultrasonic
 {
   public:
-    GFSK_Ultrasonic(int trigPin, int echoPin);
+    GFSK_Ultrasonic(int trigPin, int echoPin, int interval);
     void init();
     int getDistanceInCM();
   private:
     int _trigPin;
     int _echoPin;
+    int _interval;
     int _lastDistances;
+    long _lastTime;
 };
 
 #endif
