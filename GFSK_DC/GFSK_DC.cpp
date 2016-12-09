@@ -24,7 +24,6 @@ GFSK_DC::GFSK_DC(int pin1, int pin2, int speedPin)
   _pin2 = pin2;
   _speedPin = speedPin;
   _speed = 200;
-  _targetSpeed = 200;
   _direction = 0;
   _currentDirection = 1;
 }
@@ -43,12 +42,6 @@ void GFSK_DC::init()
 
 void GFSK_DC::loop()
 {
-  Serial.println(_speed);
-  if ((millis() - 10) > _lastTime && _speed > _targetSpeed) {
-    _lastTime = millis();
-    _speed--;
-  }
-  analogWrite(_speedPin, _speed);
 }
 
 /*
@@ -62,7 +55,7 @@ void GFSK_DC::setSpeed(int speed)
   if (speed > 255) {speed = 255;}
   if (speed < 0) {speed = 0;}
   _speed = speed;
-  _targetSpeed = speed;
+  analogWrite(_speedPin, _speed);
 }
 
 /*
@@ -74,8 +67,6 @@ void GFSK_DC::setDirection(int direction)
   if (_currentDirection != _direction) {
     _direction = direction;
     _currentDirection = direction;
-    _speed = _targetSpeed + 100;
-    if (_speed > 255) {_speed = 255;}
   }
   if (direction == 0) {
     _pinStates[0] = 1;

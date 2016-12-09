@@ -16,7 +16,6 @@ class GFSK_DC
     int _pin1;
     int _pin2;
     int _speed;
-    int _targetSpeed;
     long _lastTime;
     int _currentDirection;
     int _speedPin;
