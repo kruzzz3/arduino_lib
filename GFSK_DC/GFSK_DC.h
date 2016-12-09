@@ -9,7 +9,9 @@ class GFSK_DC
     GFSK_DC(int pin1, int pin2, int speedPin);
     void init();
     void setSpeed(int speed);
+    int getSpeed();
     void setDirection(int direction);
+    int getDirection();
     void stop();
     void loop();
   private:

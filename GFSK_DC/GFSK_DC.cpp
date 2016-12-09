@@ -58,6 +58,12 @@ void GFSK_DC::setSpeed(int speed)
   analogWrite(_speedPin, _speed);
 }
 
+int GFSK_DC::getSpeed()
+{
+  return _speed;
+}
+
+
 /*
   set direction
   1 or 0
@@ -76,6 +82,11 @@ void GFSK_DC::setDirection(int direction)
     _pinStates[1] = 1;
   }
   run();
+}
+
+int GFSK_DC::getDirection()
+{
+  return _direction;
 }
 
 /*
