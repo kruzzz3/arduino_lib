@@ -41,7 +41,7 @@ int GFSK_Ultrasonic::getDistanceInCM()
     delayMicroseconds(10);
     digitalWrite(_trigPin, LOW);
 
-    int microseconds = pulseIn(_echoPin, HIGH);
+    int microseconds = pulseIn(_echoPin, HIGH, 30000); // wait max 30ms
 
     // convert the time into a distance
     // The speed of sound is 340 m/s or 29 microseconds per centimeter.
@@ -49,11 +49,11 @@ int GFSK_Ultrasonic::getDistanceInCM()
     // object we take half of the distance travelled.
     int distance = (microseconds / 29 / 2);
     
-    if (distance < 0)
+    if (distance <= 0)
     {
       return _lastDistances;
-    } else if (distance > 300) {
-      return 300;
+    } else if (distance > 500) {
+      return 500;
     } else {
       _lastDistances = distance;
       return distance;
