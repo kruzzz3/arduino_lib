@@ -10,10 +10,11 @@ class GFSK_Servo
     GFSK_Servo(int pin);
     void init();
     void write(int position, int speed);
+    void writeInstant(int position);
     int getPosition();
     void loop();
   private:
-    int _pin;
+    int _steering;
     Servo _servo;
     int _pos;
     int _targetPos;

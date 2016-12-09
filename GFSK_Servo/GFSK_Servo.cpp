@@ -4,9 +4,9 @@
   2016-11-10
 
   Wiring:
-    pin1 = "digital pwm"   // oragne/ yellow  --> steering
-    pin2 = "5v" // red
-    pin1 = "gnd" // black / brown
+    pin1 = "digital pwm" [steering] -->  orange / yellow  --> steering
+    pin2 = "5v" --> red
+    pin3 = "gnd" --> black / brown
 */
 
 #include "Arduino.h"
@@ -15,9 +15,9 @@
 
 Servo _servo;
 
-GFSK_Servo::GFSK_Servo(int pin)
+GFSK_Servo::GFSK_Servo(int steering)
 {
-  _pin = pin;
+  _steering = steering;
   _pos = 90;
   _targetPos = 90;
   _speed = 10;
@@ -27,9 +27,8 @@ GFSK_Servo::GFSK_Servo(int pin)
 // call to set up the Servo
 void GFSK_Servo::init()
 {
-  _servo.attach(_pin);
+  _servo.attach(_steering);
   _servo.write(90);
-  delay(100);
 }
 
 void GFSK_Servo::loop()
@@ -67,6 +66,15 @@ void GFSK_Servo::write(int aim, int speed)
   if(aim < -90) aim = -90;
   if(aim > 90) aim = 90;
   _targetPos = aim + 90; // needed to work with negativ values
+}
+
+void GFSK_Servo::writeInstant(int aim)
+{
+  if(aim < -90) aim = -90;
+  if(aim > 90) aim = 90;
+  _targetPos = aim + 90;
+  _pos = _targetPos;
+  _servo.write(_pos);
 }
 
 /*
