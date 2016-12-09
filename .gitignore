@@ -1,0 +1,5 @@
+# alles hinter einer Raute (#) gilt als Kommentar
+#*.php        # alle PHP-Dateien im gleichen Ordner wie .gitignore werden ignoriert
+#!index.php   # Tracke die index.php, selbst wenn alle PHP-Dateien ignoriert werden
+#/TODO        # ignoriere die TODO-Datei, nicht den TODO-Ordner
+#bin/         # ignoriere alle Dateien im bin-Ordner 
