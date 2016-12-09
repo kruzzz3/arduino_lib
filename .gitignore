@@ -3,3 +3,9 @@
 #!index.php   # Tracke die index.php, selbst wenn alle PHP-Dateien ignoriert werden
 #/TODO        # ignoriere die TODO-Datei, nicht den TODO-Ordner
 #bin/         # ignoriere alle Dateien im bin-Ordner 
+
+I2Cdev/
+LedControlMS/
+Morse/
+MPU6050/
+/readme.txt
