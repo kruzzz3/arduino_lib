@@ -14,7 +14,9 @@ class GFSK_Stepper
     void setStepsPerRevolution(int stepsPerRevolution);
     void setSpeed(int speed);
     void checkSteps();
+    void setHalfStepping(int useHalfStepping);
   private:
+    int _halfStepping;
     int _pin1;
     int _pin2;
     int _pin3;

@@ -33,6 +33,7 @@
 
 GFSK_Stepper::GFSK_Stepper(int pin1, int pin2, int pin3, int pin4)
 {
+  _halfStepping = 1;
   _pin1 = pin1;
   _pin2 = pin2;
   _pin3 = pin3;
@@ -59,6 +60,12 @@ void GFSK_Stepper::init()
   digitalWrite(_pin4, _pinStates[3]);
 }
 
+
+void GFSK_Stepper::setHalfStepping(int halfStepping)
+{
+  _halfStepping = halfStepping;
+}
+
 /*
   set the correct steps amount for a motor 
 */
@@ -76,7 +83,7 @@ void GFSK_Stepper::setStepsPerRevolution(int stepsPerRevolution)
 void GFSK_Stepper::setSpeed(int speed)
 {
   if (speed > 500) {speed = 500;}
-  if (speed < 2) {speed = 2;}
+  if (speed < 0) {speed = 0;}
   _speed = speed;
 }
 
@@ -171,15 +178,21 @@ void GFSK_Stepper::nextPinStates(int degree)
 
   _pinStates[_i] = 1;
 
-  if (_j == 0)
+  if (_halfStepping == 1)
   {
-    _j++;
+    if (_j == 0)
+    {
+      _j++;
+    } else {
+      int k = 0;
+      if (degree > 0) {k = _i + _j;} else {k = _i - _j;}
+      if (k > 3){k = 0;} else if (k < 0) {k = 3;}
+      _pinStates[k] = 1;
+      _j = 0;
+      if (degree > 0) {_i++;} else {_i--;}
+      if (_i > 3){_i = 0;} else if (_i < 0) {_i = 3;}
+    }
   } else {
-    int k = 0;
-    if (degree > 0) {k = _i + _j;} else {k = _i - _j;}
-    if (k > 3){k = 0;} else if (k < 0) {k = 3;}
-    _pinStates[k] = 1;
-    _j = 0;
     if (degree > 0) {_i++;} else {_i--;}
     if (_i > 3){_i = 0;} else if (_i < 0) {_i = 3;}
   }
