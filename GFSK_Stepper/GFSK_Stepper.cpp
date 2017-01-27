@@ -80,7 +80,7 @@ void GFSK_Stepper::setStepsPerRevolution(int stepsPerRevolution)
   lowest value = 2
   highest value = 500
 */
-void GFSK_Stepper::setSpeed(int speed)
+void GFSK_Stepper::setSpeed(long speed)
 {
   if (speed > 500) {speed = 500;}
   if (speed < 0) {speed = 0;}
@@ -125,8 +125,8 @@ void GFSK_Stepper::stepAsync(int degree)
     _direction = degree;
     _lastTime = millis();
   }
-
-  if ((millis() - _speed) > _lastTime && _stepsLeft > 0) {
+  long now = millis();
+  if ((now - _speed) > _lastTime && _stepsLeft > 0) {
     _lastTime = millis();
     _stepsLeft--;
 

@@ -12,7 +12,7 @@ class GFSK_Stepper
     void stepAsync(int degree);
     void stop();
     void setStepsPerRevolution(int stepsPerRevolution);
-    void setSpeed(int speed);
+    void setSpeed(long speed);
     void checkSteps();
     void setHalfStepping(int useHalfStepping);
   private:
@@ -26,7 +26,7 @@ class GFSK_Stepper
     int _stepsLeft;
     int _direction;
     long _lastTime;
-    int _speed;
+    long _speed;
     int _stepsPerRevolution;
     int _pinStates[4] = {1, 0, 0, 0};
     void nextPinStates(int degree);
